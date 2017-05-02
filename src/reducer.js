@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { STORE_DATA, STORE_DRIVERS } from './constants';
+import { STORE_DATA, STORE_DRIVERS, UPDATE_VALUE } from './constants';
 
 const initState = {
   data: [],
   drivers: [],
+  value: '',
 };
 
 const reducer = (state = initState, action) => {
@@ -18,6 +19,12 @@ const reducer = (state = initState, action) => {
       return Object.assign({}, state, {
         drivers: action.drivers,
       });
+    }
+    case UPDATE_VALUE: {
+      return {
+        ...state,
+        value: action.value,
+      };
     }
     default: {
       return state;

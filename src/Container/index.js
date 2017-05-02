@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autocomplete from 'react-autocomplete';
-import { loadData, loadDrivers } from '../actions';
+import { loadData, loadDrivers, inputChange } from '../actions';
 import { getDriversLength } from '../selectors';
 
 class Container extends Component {
@@ -12,7 +12,7 @@ class Container extends Component {
   }
 
   render() {
-    const { constructors, drivers, getDrivers } = this.props;
+    const { constructors, drivers, getDrivers, value, inputChange } = this.props;
 
     return (
       <div>
@@ -25,7 +25,10 @@ class Container extends Component {
             >{item.name}</div>
           )}
           onSelect={(value, item) => getDrivers(item.constructorId)}
+          onChange={(event, value) => inputChange(value)}
+          value={value}
         />
+        <br/>
         <code>
           {JSON.stringify(drivers)}
         </code>
@@ -40,12 +43,14 @@ Container.propTypes = {
   length: PropTypes.number.isRequired,
   getData: PropTypes.func.isRequired,
   getDrivers: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   constructors: state.data,
   length: getDriversLength(state),
   drivers: state.drivers,
+  value: state.value,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -54,6 +59,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getDrivers: (id) => {
     dispatch(loadDrivers(id));
+  },
+  inputChange: (value) => {
+    dispatch(inputChange(value));
   },
 });
 
