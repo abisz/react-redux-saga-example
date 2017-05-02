@@ -1,6 +1,7 @@
 import {
   LOAD_DATA, STORE_DATA, LOAD_DRIVERS,
   STORE_DRIVERS, INPUT_CHANGE, UPDATE_VALUE,
+  UPDATE_AUTOCOMPLETE, FILTER_AUTOCOMPLETE,
 } from './constants';
 
 export function loadData(offset) {
@@ -43,4 +44,18 @@ export function updateValue(value) {
     type: UPDATE_VALUE,
     value,
   };
+}
+
+export function updateAutocomplete(value) {
+  return {
+    type: UPDATE_AUTOCOMPLETE,
+    value,
+  };
+}
+
+export function filterAutocomplete(value) {
+  return {
+    type: FILTER_AUTOCOMPLETE,
+    value,
+  }
 }

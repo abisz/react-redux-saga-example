@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autocomplete from 'react-autocomplete';
 import { loadData, loadDrivers, inputChange } from '../actions';
-import { getDriversLength } from '../selectors';
+import { getDriversLength, getItemList } from '../selectors';
 
 class Container extends Component {
   componentWillMount() {
@@ -47,7 +47,7 @@ Container.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  constructors: state.data,
+  constructors: getItemList(state),
   length: getDriversLength(state),
   drivers: state.drivers,
   value: state.value,

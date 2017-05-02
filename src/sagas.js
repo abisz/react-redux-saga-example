@@ -1,6 +1,10 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects';
-import { LOAD_DATA, LOAD_DRIVERS, INPUT_CHANGE } from './constants';
-import { loadData, storeData, storeDrivers, updateValue } from './actions';
+import { delay } from 'redux-saga';
+import { takeEvery, call, put, select, takeLatest } from 'redux-saga/effects';
+import { LOAD_DATA, LOAD_DRIVERS, INPUT_CHANGE, UPDATE_AUTOCOMPLETE } from './constants';
+import {
+  loadData, storeData, storeDrivers,
+  updateValue, updateAutocomplete, filterAutocomplete,
+} from './actions';
 import { fetchData } from './api';
 import { getDataLength } from './selectors';
 
@@ -32,8 +36,13 @@ function* loadDriverSaga({ id }) {
 }
 
 function* inputChange({ value }) {
-
   yield put(updateValue(value));
+  yield put(updateAutocomplete(value));
+}
+
+function* delayedAutocomplete({ value }) {
+  yield delay(200);
+  yield put(filterAutocomplete(value));
 }
 
 function* watchLoadData() {
@@ -48,10 +57,15 @@ function* watchInputChange() {
   yield takeEvery(INPUT_CHANGE, inputChange);
 }
 
+function* watchUpdateAutocomplete() {
+  yield takeLatest(UPDATE_AUTOCOMPLETE, delayedAutocomplete)
+}
+
 export default function* rootSaga() {
   yield [
     watchLoadData(),
     watchLoadDrivers(),
     watchInputChange(),
+    watchUpdateAutocomplete(),
   ];
 }

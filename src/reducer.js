@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { STORE_DATA, STORE_DRIVERS, UPDATE_VALUE } from './constants';
+import { STORE_DATA, STORE_DRIVERS, UPDATE_VALUE, FILTER_AUTOCOMPLETE } from './constants';
 
 const initState = {
   data: [],
   drivers: [],
   value: '',
+  filter: '',
 };
 
 const reducer = (state = initState, action) => {
@@ -25,6 +26,12 @@ const reducer = (state = initState, action) => {
         ...state,
         value: action.value,
       };
+    }
+    case FILTER_AUTOCOMPLETE: {
+      return {
+        ...state,
+        filter: action.value,
+      }
     }
     default: {
       return state;
