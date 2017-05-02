@@ -6,8 +6,5 @@ export async function fetchData(url) {
     }),
   });
 
-  console.log(response);
-
-
   return await response.json();
 }
