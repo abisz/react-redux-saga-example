@@ -1,8 +1,9 @@
 import { LOAD_DATA, STORE_DATA } from './constants';
 
-export function loadData() {
+export function loadData(offset) {
   return {
     type: LOAD_DATA,
+    offset,
   };
 }
 

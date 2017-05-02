@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadData } from '../actions';
+import { getDataLength } from '../selectors';
 
 class Container extends Component {
   componentWillMount() {
@@ -10,9 +11,10 @@ class Container extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { length, data } = this.props;
     return (
       <div>
+        <h1>{length}</h1>
         {JSON.stringify(data)}
       </div>
     );
@@ -21,16 +23,18 @@ class Container extends Component {
 
 Container.propTypes = {
   data: PropTypes.array.isRequired,
+  length: PropTypes.number.isRequired,
   getData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   data: state.data,
+  length: getDataLength(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   getData: () => {
-    dispatch(loadData());
+    dispatch(loadData(0));
   },
 });
 
