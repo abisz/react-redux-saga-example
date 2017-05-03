@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Autocomplete from 'react-autocomplete';
 import { loadData, loadDrivers, inputChange } from '../actions';
 import { getDriversLength, getItemList } from '../selectors';
+import './style.css';
 
 class Container extends Component {
   componentWillMount() {
@@ -14,6 +15,13 @@ class Container extends Component {
   render() {
     const { constructors, drivers, getDrivers, value, inputChange } = this.props;
 
+    const driverList = drivers.map(d => (
+      <li
+        key={d.driverId}
+      >{`${d.givenName} ${d.familyName} (${d.dateOfBirth}, ${d.nationality})`}
+      </li>
+    ));
+
     return (
       <div>
         <Autocomplete
@@ -22,6 +30,7 @@ class Container extends Component {
           renderItem={(item, isHighlighted) => (
             <div
               className={isHighlighted ? 'highlighted' : ''}
+              key={item.abbr}
             >{item.name}</div>
           )}
           onSelect={(value, item) => getDrivers(item.constructorId)}
@@ -29,9 +38,9 @@ class Container extends Component {
           value={value}
         />
         <br/>
-        <code>
-          {JSON.stringify(drivers)}
-        </code>
+        <ul>
+          {driverList}
+        </ul>
       </div>
     );
   }

@@ -33,6 +33,12 @@ function* loadDriverSaga({ id }) {
   const drivers = response.MRData.DriverTable.Drivers;
 
   yield put(storeDrivers(drivers));
+
+  // update field with complete name
+  const store = yield select();
+  const constructors = store.data;
+  const constructor = constructors.find(c => c.constructorId === id);
+  yield put(updateValue(constructor.name));
 }
 
 function* inputChange({ value }) {
